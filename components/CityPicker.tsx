@@ -25,40 +25,79 @@ type CityType = {
   label: string;
 } | null;
 
-const options = Country.getAllCountries().map(country => ({
-  value: {
-    latitude: country.latitude,
-    longitude: country.longitude,
-    isoCode: country.isoCode,
-  },
-  label: country.name,
-}));
-
-type Props = {};
-
-const CityPicker = (props: Props) => {
+const CityPicker = () => {
   const [selectedCountry, setSelectedCountry] = useState<CountryType>(null);
   const [selectedCity, setSelectedCity] = useState<CityType>(null);
 
   const router = useRouter();
+
+  const optionsCountry = Country.getAllCountries().map(country => ({
+    value: {
+      latitude: country.latitude,
+      longitude: country.longitude,
+      isoCode: country.isoCode,
+    },
+    label: country.name,
+  }));
+
+  const optionsCity = () => {
+    if (selectedCountry) {
+      const options = City.getCitiesOfCountry(
+        selectedCountry.value.isoCode
+      )?.map(city => ({
+        value: {
+          latitude: city.latitude!,
+          longitude: city.longitude!,
+          countryCode: city.countryCode,
+          name: city.name,
+          stateCode: city.stateCode,
+        },
+        label: city.name,
+      }));
+      return options;
+    }
+    console.log('missing options');
+  };
 
   const handleCountryChange = (country: CountryType) => {
     setSelectedCountry(country);
     setSelectedCity(null);
   };
 
+  const handleCityChange = (city: CityType) => {
+    setSelectedCity(city);
+    router.push(`/location/${city?.value.latitude}/${city?.value.longitude}`);
+  };
+
   return (
     <div className="space-y-4">
-      <div className="flex items-center space-x-2 text-white/80">
-        <GlobeIcon className="h-5 w-5 text-white" />
-        <label htmlFor="country">Country</label>
+      <div className="space-y-2">
+        <div className="flex items-center space-x-2 text-white/80">
+          <GlobeIcon className="h-5 w-5 text-white" />
+          <label htmlFor="country">Country</label>
+        </div>
+        <Select
+          className="text-black"
+          value={selectedCountry}
+          onChange={handleCountryChange}
+          options={optionsCountry}
+        />
       </div>
-      <Select
-        className="text-black"
-        value={selectedCountry}
-        onChange={handleCountryChange}
-        options={options}
-      />
+
+      {selectedCountry && (
+        <div className="space-y-2">
+          <div className="flex items-center space-x-2 text-white/80">
+            <GlobeIcon className="h-5 w-5 text-white" />
+            <label htmlFor="country">City</label>
+          </div>
+          <Select
+            className="text-black"
+            value={selectedCity}
+            onChange={handleCityChange}
+            options={optionsCity()}
+          />
+        </div>
+      )}
     </div>
   );
 };
