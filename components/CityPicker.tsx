@@ -66,8 +66,11 @@ const CityPicker = () => {
 
   const handleCityChange = (city: CityType) => {
     setSelectedCity(city);
+
     router.push(
-      `/location/${city?.value.name}/${city?.value.latitude}/${city?.value.longitude}`
+      `/location/${city?.value.name}/${city?.value.latitude}/${
+        city?.value.longitude
+      }?timezone=${Intl.DateTimeFormat().resolvedOptions().timeZone}`
     );
   };
 

@@ -5,7 +5,7 @@ const weatherCodeToString: {
   };
 } = {
   0: {
-    icon: 'c0ld',
+    icon: 'c01d',
     label: 'Clear sky',
   },
   1: {

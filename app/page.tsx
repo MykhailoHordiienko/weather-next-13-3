@@ -2,7 +2,6 @@
 
 import CityPicker from '@/components/CityPicker';
 import { Card, Divider, Subtitle, Text } from '@tremor/react';
-console.log(Intl.DateTimeFormat().resolvedOptions().timeZone);
 
 export default function Home() {
   return (

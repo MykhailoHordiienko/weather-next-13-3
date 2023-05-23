@@ -15,9 +15,15 @@ type Props = {
     lat: string;
     long: string;
   };
+  searchParams: {
+    timezone: string;
+  };
 };
 
-async function WeatherPage({ params: { city, lat, long } }: Props) {
+async function WeatherPage({
+  params: { city, lat, long },
+  searchParams: { timezone },
+}: Props) {
   const client = getClient();
 
   const { data } = await client.query({
@@ -38,6 +44,7 @@ async function WeatherPage({ params: { city, lat, long } }: Props) {
         result={result}
         lat={lat}
         long={long}
+        timezone={timezone}
       />
       <div className="flex-1 p-5 lg:p-10">
         <div className="p-5">

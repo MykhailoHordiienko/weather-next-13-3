@@ -8,9 +8,10 @@ type Props = {
   lat: string;
   long: string;
   result: IRoot;
+  timezone: string;
 };
 
-const InformationPanel = ({ city, lat, long, result }: Props) => {
+const InformationPanel = ({ city, lat, long, result, timezone }: Props) => {
   return (
     <div className="bg-gradient-to-br from-[#1e8aae] to-[#1c549d] text-white p-10">
       <div className="pb-5">
@@ -31,9 +32,7 @@ const InformationPanel = ({ city, lat, long, result }: Props) => {
               day: 'numeric',
             })}
           </p>
-          <p className="font-extralight">
-            Timezone: {Intl.DateTimeFormat().resolvedOptions().timeZone}
-          </p>
+          <p className="font-extralight">Timezone: {timezone}</p>
         </div>
         <p className="text-xl font-bold uppercase">
           {new Date().toLocaleDateString('en-GB', {
