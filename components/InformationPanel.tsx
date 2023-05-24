@@ -73,6 +73,7 @@ const InformationPanel = ({ city, lat, long, result, timezone }: Props) => {
               {new Date(result.daily.sunrise[0] + 'Z').toLocaleTimeString(
                 'en-GB',
                 {
+                  timeZone: timezone,
                   hour: 'numeric',
                   minute: 'numeric',
                   hour12: false,
@@ -89,6 +90,7 @@ const InformationPanel = ({ city, lat, long, result, timezone }: Props) => {
               {new Date(result.daily.sunset[0] + 'Z').toLocaleTimeString(
                 'en-GB',
                 {
+                  timeZone: timezone,
                   hour: 'numeric',
                   minute: 'numeric',
                   hour12: false,
