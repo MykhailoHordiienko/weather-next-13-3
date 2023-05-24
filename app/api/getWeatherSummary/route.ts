@@ -16,7 +16,7 @@ export async function POST(request: Request) {
       },
       {
         role: 'user',
-        content: `Hi there, can i get a summary of todays weather, use the following information to get the weather data: ${JSON.stringify(
+        content: `Hi there, can i get a short summary under 10 seconds of todays weather, use the following information to get the weather data: ${JSON.stringify(
           weatherData
         )}`,
       },
