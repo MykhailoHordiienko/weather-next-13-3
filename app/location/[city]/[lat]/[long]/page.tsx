@@ -6,8 +6,10 @@ import InformationPanel from '@/components/InformationPanel';
 import TempChart from '@/components/TempChart';
 import RainChart from '@/components/RainChart';
 import HumidityChart from '@/components/HumidityChart';
+import formatDataForOpenAi from '@/helpers/formatDataForOpenAi';
+import getBasePathForFetchOpenAi from '@/helpers/getBasePathForFetchOpenAi';
 
-export const revalidate = 60;
+export const revalidate = 86400;
 
 type Props = {
   params: {
@@ -37,6 +39,22 @@ async function WeatherPage({
   });
 
   const result: IRoot = data.myQuery;
+
+  const dataToOpenAi = formatDataForOpenAi(result, city);
+
+  const res = await fetch(
+    `${getBasePathForFetchOpenAi()}/api/getWeatherSummary`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ weatherData: dataToOpenAi }),
+    }
+  );
+
+  const gptData = await res.json();
+
   return (
     <div className="flex flex-col min-h-screen md:flex-row">
       <InformationPanel
@@ -57,7 +75,7 @@ async function WeatherPage({
             </p>
           </div>
           <div className="m-2 mb-10">
-            <CallOutCard message="This GPT" />
+            <CallOutCard message={gptData} />
           </div>
           <div className="grid grid-cols-1 xl:grid-cols-2 gap-5 m-2">
             <StatCard

@@ -3,7 +3,7 @@ import { Country, City } from 'country-state-city';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import Select from 'react-select';
-import { GlobeIcon } from '@heroicons/react/solid';
+import { GlobeIcon, SunIcon } from '@heroicons/react/solid';
 
 type CountryType = {
   value: {
@@ -28,6 +28,7 @@ type CityType = {
 const CityPicker = () => {
   const [selectedCountry, setSelectedCountry] = useState<CountryType>(null);
   const [selectedCity, setSelectedCity] = useState<CityType>(null);
+  const [loading, setLoading] = useState(false);
 
   const router = useRouter();
 
@@ -65,6 +66,7 @@ const CityPicker = () => {
   };
 
   const handleCityChange = (city: CityType) => {
+    setLoading(true);
     setSelectedCity(city);
 
     router.push(
@@ -73,47 +75,48 @@ const CityPicker = () => {
       }?timezone=${Intl.DateTimeFormat().resolvedOptions().timeZone}`
     );
   };
-  //   const time = Intl.DateTimeFormat().resolvedOptions().timeZone;
-
-  //   console.log(
-  //     new Date().toLocaleDateString('en-GB', {
-  //       timeZone: time,
-  //       hour: 'numeric',
-  //       minute: 'numeric',
-  //       hour12: false,
-  //     })
-  //   );
 
   return (
-    <div className="space-y-4">
-      <div className="space-y-2">
-        <div className="flex items-center space-x-2 text-white/80">
-          <GlobeIcon className="h-5 w-5 text-white" />
-          <label htmlFor="country">Country</label>
-        </div>
-        <Select
-          className="text-black"
-          value={selectedCountry}
-          onChange={handleCountryChange}
-          options={optionsCountry}
-        />
-      </div>
-
-      {selectedCountry && (
-        <div className="space-y-2">
-          <div className="flex items-center space-x-2 text-white/80">
-            <GlobeIcon className="h-5 w-5 text-white" />
-            <label htmlFor="country">City</label>
-          </div>
-          <Select
-            className="text-black"
-            value={selectedCity}
-            onChange={handleCityChange}
-            options={optionsCity()}
+    <>
+      {loading ? (
+        <div className="flex items-center justify-center">
+          <SunIcon
+            className="h-24 w-24 animate-bounce text-yellow-500"
+            color="yellow"
           />
         </div>
+      ) : (
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <div className="flex items-center space-x-2 text-white/80">
+              <GlobeIcon className="h-5 w-5 text-white" />
+              <label htmlFor="country">Country</label>
+            </div>
+            <Select
+              className="text-black"
+              value={selectedCountry}
+              onChange={handleCountryChange}
+              options={optionsCountry}
+            />
+          </div>
+
+          {selectedCountry && (
+            <div className="space-y-2">
+              <div className="flex items-center space-x-2 text-white/80">
+                <GlobeIcon className="h-5 w-5 text-white" />
+                <label htmlFor="country">City</label>
+              </div>
+              <Select
+                className="text-black"
+                value={selectedCity}
+                onChange={handleCityChange}
+                options={optionsCity()}
+              />
+            </div>
+          )}
+        </div>
       )}
-    </div>
+    </>
   );
 };
 
