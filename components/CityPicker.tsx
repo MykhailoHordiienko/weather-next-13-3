@@ -73,6 +73,16 @@ const CityPicker = () => {
       }?timezone=${Intl.DateTimeFormat().resolvedOptions().timeZone}`
     );
   };
+  //   const time = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+  //   console.log(
+  //     new Date().toLocaleDateString('en-GB', {
+  //       timeZone: time,
+  //       hour: 'numeric',
+  //       minute: 'numeric',
+  //       hour12: false,
+  //     })
+  //   );
 
   return (
     <div className="space-y-4">

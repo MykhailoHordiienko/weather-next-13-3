@@ -36,6 +36,7 @@ const InformationPanel = ({ city, lat, long, result, timezone }: Props) => {
         </div>
         <p className="text-xl font-bold uppercase">
           {new Date().toLocaleDateString('en-GB', {
+            timeZone: timezone,
             hour: 'numeric',
             minute: 'numeric',
             hour12: false,
